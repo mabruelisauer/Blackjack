@@ -14,5 +14,11 @@ namespace Blackjack
         {
             Hand = new List<int>();
         }
+
+        public void PrintCard()
+        {
+            int card = Hand[0];
+            Console.WriteLine($"Dealer has {card} on his hand.", card);
+        }
     }
 }

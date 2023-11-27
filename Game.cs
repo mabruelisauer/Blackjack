@@ -34,6 +34,9 @@ namespace Blackjack
             box.GenerateRandomBox();
             player.Hand.Add(box.DealCard());
             player.PrintCard();
+
+            dealer.Hand.Add(box.DealCard());
+            dealer.PrintCard();
         }
     }
 }
