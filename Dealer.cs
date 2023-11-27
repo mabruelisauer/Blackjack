@@ -8,6 +8,11 @@ namespace Blackjack
 {
     public class Dealer
     {
+        public List<int> Hand { get; set; }
 
+        public Dealer()
+        {
+            Hand = new List<int>();
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Blackjack
     public class Box
     {
         public List<int> RandomBox = new List<int>();
-        public int AceCounter {  get; set; }
+        public int AceCounter { get; set; }
         public int TwoCounter { get; set; }
         public int ThreeCounter { get; set; }
         public int FourCounter { get; set; }
@@ -38,16 +38,16 @@ namespace Blackjack
 
 
 
-        public void GenerateRandomBox() 
+        public void GenerateRandomBox()
         {
             Random random = new Random();
 
             for (int i = 0; i <= 416; i++)
             {
-                int randomNumber = random.Next(1,14);
+                int randomNumber = random.Next(1, 14);
                 if (randomNumber == 1 && AceCounter <= 31)
                 {
-                    RandomBox.Add(randomNumber);
+                    RandomBox.Add(11);
                     AceCounter++;
                 }
                 else if (randomNumber == 2 && TwoCounter <= 31)
@@ -106,6 +106,23 @@ namespace Blackjack
                         i--;
                     }
                 }
+            }
+        }
+
+        public int DealCard()
+        {
+            if (RandomBox.Count > 0)
+            {
+                int nextCard = RandomBox[0];
+                RandomBox.RemoveAt(0);
+                return nextCard;
+            }
+             else
+            {
+                RandomBox.Clear();
+                GenerateRandomBox();
+                Console.WriteLine("The cards are being shuffled.");
+                return DealCard();
             }
         }
     }

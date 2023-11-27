@@ -11,8 +11,8 @@ namespace Blackjack
     {
         public void PrintRoundStartMessage(decimal cash)
         {
-            Console.WriteLine("Cash: " + cash + " CHF");
             Console.WriteLine("Place your bets, please.");
+            Console.WriteLine("Cash: " + cash + " CHF");
             Console.WriteLine("MIN: 1 CHF");
             Console.WriteLine("MAX: 500 CHF");
         }
@@ -22,9 +22,7 @@ namespace Blackjack
             string input;
             do { input = Console.ReadLine(); }
             while (!ValidBet(cash, input));
-            {
-                input = Console.ReadLine();
-            }
+
             return decimal.Parse(input);
         }
 
