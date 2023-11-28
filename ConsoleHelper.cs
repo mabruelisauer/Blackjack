@@ -44,5 +44,67 @@ namespace Blackjack
                 return true;
             }
         }
+
+        public int GetValidSplitDecision(decimal bet, decimal cash)
+        {
+            string input;
+            do { input = Console.ReadLine(); }
+            while (!ValidDecision(cash, bet, input, 4));
+
+            return int.Parse(input);
+        }
+
+        public int GetValidDoubleDecision(decimal bet, decimal cash)
+        {
+            string input;
+            do { input = Console.ReadLine(); }
+            while (!ValidDecision(cash, bet, input, 3));
+
+            return int.Parse(input);
+        }
+
+        public int GetValidDecision(decimal bet, decimal cash)
+        {
+            string input;
+            do { input = Console.ReadLine(); }
+            while (!ValidDecision(cash, bet, input, 2));
+
+            return int.Parse(input);
+        }
+
+        public bool ValidDecision(decimal cash, decimal bet, string input, int possibleDecisions)
+        {
+            bool Parsebool = int.TryParse(input, out int result);
+            if (!Parsebool)
+            {
+                Console.WriteLine("Please enter a number.");
+                return false;
+            }
+            else if (result < 1 || result > possibleDecisions)
+            {
+                Console.WriteLine($"Please enter a number between 1 and {possibleDecisions}.");
+                return false;
+            }
+            else
+            {
+                if (int.Parse(input) == 3 || int.Parse(input) == 4)
+                {
+                    if (cash > bet)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"With {cash} CHF your cash is to low to double or split {bet} CHF.");
+                        Console.WriteLine("Please decide accordingly.");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
     }
 }

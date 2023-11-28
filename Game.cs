@@ -27,6 +27,7 @@ namespace Blackjack
             Console.Clear();
             consoleHelper.PrintRoundStartMessage(player.Cash);
             decimal bet = consoleHelper.GetValidBet(player.Cash);
+            player.ChargeBet(bet);
 
             player.Hand.Clear();
             dealer.Hand.Clear();
@@ -39,6 +40,9 @@ namespace Blackjack
             player.Hand.Add(box.DealCard());
             player.PrintHand();
             dealer.PrintCard();
+
+            int decision = player.GetPlayerDecision(bet); //Test if split and double doesn't work with too low cash
+            
         }
     }
 }
