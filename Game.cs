@@ -12,6 +12,7 @@ namespace Blackjack
         Player player = new Player();
         Dealer dealer = new Dealer();
         ConsoleHelper consoleHelper = new ConsoleHelper();
+        WinChecker winChecker = new WinChecker();
 
         public void Start()
         {
@@ -34,15 +35,23 @@ namespace Blackjack
 
             box.GenerateRandomBox();
             player.Hand.Add(box.DealCard());
-
             dealer.Hand.Add(box.DealCard());
-
             player.Hand.Add(box.DealCard());
+
             player.PrintHand();
             dealer.PrintCard();
-
             int decision = player.GetPlayerDecision(bet); //Test if split and double doesn't work with too low cash
-            
+            //Change IsWon or IsLost if either of the players has Blackjack
+
+            if (!winChecker.IsWon && !winChecker.IsLost)
+            {
+                switch (decision)
+                {
+                    case 1:
+
+                        break;
+                }
+            }
         }
     }
 }

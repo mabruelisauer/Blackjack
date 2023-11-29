@@ -41,8 +41,9 @@ namespace Blackjack
         public void GenerateRandomBox()
         {
             Random random = new Random();
+            int numberOfCards = 416;
 
-            for (int i = 0; i <= 416; i++)
+            for (int i = 0; i <= numberOfCards; i++)
             {
                 int randomNumber = random.Next(1, 14);
                 if (randomNumber == 1 && AceCounter <= 31)
