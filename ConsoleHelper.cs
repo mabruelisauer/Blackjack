@@ -106,5 +106,32 @@ namespace Blackjack
                 }
             }
         }
+
+        internal void PrintLostMessage(Player player, Dealer dealer)
+        {
+            Console.WriteLine($"\nYou lost the Round! You have {player.GetHandSum()}, while the dealer has {dealer.GetHandSum()}");
+            Console.WriteLine("\nPress any key to start the next round...");
+        }
+
+        internal void PrintDrawMessage(decimal bet)
+        {
+            Console.WriteLine("\nPush!");
+            Console.WriteLine($"You get back your bet of {bet}");
+            Console.WriteLine("\nPress any key to start the next round...");
+        }
+
+        internal void PrintWonMessage(Player player, Dealer dealer, decimal payout)
+        {
+            Console.WriteLine($"\nYou won the Round! You have {player.GetHandSum()}, while the dealer has {dealer.GetHandSum()}");
+            Console.WriteLine($"You get a payout of {payout}");
+            Console.WriteLine("\nPress any key to start the next round...");
+        }
+
+        internal void PrintBlackjackMessage(Player player, Dealer dealer, decimal payout)
+        {
+            Console.WriteLine($"\nYou have Blackjack! The dealer has {dealer.GetHandSum()}");
+            Console.WriteLine($"You get a payout of {payout}");
+            Console.WriteLine("\nPress any key to start the next round...");
+        }
     }
 }

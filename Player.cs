@@ -48,6 +48,29 @@ namespace Blackjack
             Console.WriteLine($"The sum of your cards is: {sum}");
         }
 
+        public int GetHandSum()
+        {
+            int sum = 0;
+            int numberOfAces = 0;
+
+            foreach (int card in Hand)
+            {
+                if (card == 11)
+                {
+                    numberOfAces++;
+                }
+                sum += card;
+            }
+
+            while (sum > 21 && numberOfAces > 0)
+            {
+                sum -= 10;
+                numberOfAces--;
+            }
+
+            return sum;
+        }
+
         public void ChargeBet(decimal bet)
         {
             Cash -= bet;
