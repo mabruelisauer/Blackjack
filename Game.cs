@@ -79,6 +79,7 @@ namespace Blackjack
                         Console.Clear();
                         player.ChargeBet(bet);
                         Console.WriteLine($"Another {bet} have been withdrawn from your account");
+                        bet += bet;
                         Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
                         player.Hand.Add(box.DealCard());
                         Console.WriteLine($"You draw {player.Hand[player.Hand.Count - 1]}, you have now {player.GetHandSum()}");
@@ -90,6 +91,28 @@ namespace Blackjack
                     case 4: //SPLIT
                         Console.Clear();
                         break;
+                }
+
+                if (winChecker.IsWon)
+                {
+                    if (player.Hand.Count == 2 && player.GetHandSum() == 21)
+                    {
+                        decimal payout = 2.5m * bet;
+                        consoleHelper.PrintBlackjackMessage(player, dealer, payout);
+                        player.Cash += payout;
+                        while (!Console.KeyAvailable) { }
+
+                        StartRound();
+                    }
+                    else
+                    {
+                        decimal payout = 2 * bet;
+                        consoleHelper.PrintWonMessage(player, dealer, payout);
+                        player.Cash += payout;
+                        while (!Console.KeyAvailable) { }
+
+                        StartRound();
+                    }
                 }
                 if (winChecker.PlayerIsBust)
                 {
@@ -121,27 +144,6 @@ namespace Blackjack
                     while (!Console.KeyAvailable) { }
 
                     StartRound();
-                }
-                if (winChecker.IsWon)
-                {
-                    if (player.Hand.Count == 2 && player.GetHandSum() == 21)
-                    {
-                        decimal payout = 2.5m * bet;
-                        consoleHelper.PrintBlackjackMessage(player, dealer, payout);
-                        player.Cash += payout;
-                        while (!Console.KeyAvailable) { }
-
-                        StartRound();
-                    }
-                    else
-                    {
-                        decimal payout = 2 * bet;
-                        consoleHelper.PrintWonMessage(player, dealer, payout);
-                        player.Cash += payout;
-                        while (!Console.KeyAvailable) { }
-
-                        StartRound();
-                    }
                 }
             }
         }
