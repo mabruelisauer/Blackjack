@@ -11,11 +11,15 @@ namespace Blackjack
         public bool IsDraw { get; set; }
         public bool IsWon {  get; set; }
         public bool IsLost { get; set; }
+        public bool PlayerIsBust { get; set; }
+        public bool DealerIsBust { get; set; }
         public WinChecker() 
         { 
             IsDraw = false;
             IsWon = false; 
             IsLost = false;
+            PlayerIsBust = false;
+            DealerIsBust = false;
         }
 
         public void CheckWinner(Player player, Dealer dealer)
@@ -36,6 +40,15 @@ namespace Blackjack
             {
                 throw new InvalidOperationException();
             }
+        }
+
+        internal void ResetVariables()
+        {
+            IsLost = false;
+            IsDraw = false;
+            IsWon = false;
+            PlayerIsBust = false;
+            DealerIsBust = false;
         }
     }
 }

@@ -35,9 +35,7 @@ namespace Blackjack
 
             player.Hand.Clear();
             dealer.Hand.Clear();
-            winChecker.IsLost = false;
-            winChecker.IsDraw = false;
-            winChecker.IsWon = false;
+            winChecker.ResetVariables();
 
             player.Hand.Add(box.DealCard());
             dealer.Hand.Add(box.DealCard());
@@ -52,41 +50,63 @@ namespace Blackjack
 
         public void GetPlayerDecisionLoop(decimal bet)
         {
-            while (!winChecker.IsWon && !winChecker.IsLost && !winChecker.IsDraw)
+            while (!winChecker.IsWon && !winChecker.IsLost && !winChecker.IsDraw && !winChecker.PlayerIsBust && !winChecker.DealerIsBust)
             {
                 int decision = player.GetPlayerDecision(bet); //Test if split and double doesn't work with too low cash
-                                                              //Change IsWon or IsLost if either of the players has Blackjack
+                winChecker.ResetVariables();                  //Change IsWon or IsLost if either of the players has Blackjack
 
                 switch (decision)
                 {
                     case 1: //STAND
-                        if (dealer.Hand.Count == 1)
-                        {
-                            Console.Clear();
-                            Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
-                            dealer.AddFaceDownCard();
-                            Console.WriteLine($"The dealer's face-down card is {dealer.FaceDownCard}, he has now {dealer.GetHandSum()}");
-                            dealer.FinishHand(box);
-                            winChecker.CheckWinner(player, dealer);
-                        }
-                        else
-                        {
-                            dealer.FinishHand(box);
-                            winChecker.CheckWinner(player, dealer);
-                        }
+                        Console.Clear();
+                        Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
+                        dealer.AddFaceDownCard();
+                        Console.WriteLine($"The dealer's face-down card is {dealer.FaceDownCard}, he has now {dealer.GetHandSum()}");
+                        dealer.FinishHand(box, winChecker);
+                        winChecker.CheckWinner(player, dealer);
                         break;
                     case 2: //HIT
                         Console.Clear();
-
+                        Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
+                        player.Hand.Add(box.DealCard());
+                        Console.WriteLine($"You draw {player.Hand[player.Hand.Count - 1]}, you have now {player.GetHandSum()}");
+                        if (player.GetHandSum() > 21)
+                        {
+                            winChecker.PlayerIsBust = true;
+                        }
                         break;
                     case 3: //DOUBLE
                         Console.Clear();
+                        player.ChargeBet(bet);
+                        Console.WriteLine($"Another {bet} have been withdrawn from your account");
+                        Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
+                        player.Hand.Add(box.DealCard());
+                        Console.WriteLine($"You draw {player.Hand[player.Hand.Count - 1]}, you have now {player.GetHandSum()}");
+                        if (player.GetHandSum() > 21)
+                        {
+                            winChecker.PlayerIsBust = true;
+                        }
                         break;
                     case 4: //SPLIT
                         Console.Clear();
                         break;
                 }
+                if (winChecker.PlayerIsBust)
+                {
+                    consoleHelper.PrintPlayerBustMessage(player);
+                    while (!Console.KeyAvailable) { }
 
+                    StartRound();
+                }
+                if (winChecker.DealerIsBust)
+                {
+                    decimal payout = 2 * bet;
+                    consoleHelper.PrintDealerBustMessage(dealer, payout);
+                    player.Cash += payout;
+                    while (!Console.KeyAvailable) { }
+
+                    StartRound();
+                }
                 if (winChecker.IsLost)
                 {
                     consoleHelper.PrintLostMessage(player, dealer);
@@ -102,7 +122,7 @@ namespace Blackjack
 
                     StartRound();
                 }
-                if (!winChecker.IsWon)
+                if (winChecker.IsWon)
                 {
                     if (player.Hand.Count == 2 && player.GetHandSum() == 21)
                     {

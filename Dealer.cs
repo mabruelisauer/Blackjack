@@ -76,17 +76,21 @@ namespace Blackjack
             return sum;
         }
 
-        public void FinishHand(Box box)
+        public void FinishHand(Box box, WinChecker winChecker)
         {
             int sum = GetHandSum();
 
             while (sum < 17) 
             {
                 Hand.Add(box.DealCard());
-                Console.WriteLine($"The dealer draws {Hand[Hand.Count - 1]}, he has now");
+                Console.WriteLine($"The dealer draws {Hand[Hand.Count - 1]}, he has now {GetHandSum()}");
                 sum = GetHandSum();
             }
 
+            if (GetHandSum() > 21)
+            {
+                winChecker.DealerIsBust = true;
+            }
             Console.WriteLine($"The final sum of his cards is: {GetHandSum()}");
         }
     }
