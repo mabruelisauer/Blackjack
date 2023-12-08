@@ -24,7 +24,7 @@ namespace Blackjack
 
         public void CheckWinner(Player player, Dealer dealer)
         {
-            if (player.GetHandSum() > dealer.GetHandSum() && player.GetHandSum() <= 21 || player.GetHandSum() <= 21 && dealer.GetHandSum() > 21)
+            if (player.GetHandSum() > dealer.GetHandSum())
             {
                 IsWon = true;
             }

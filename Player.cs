@@ -42,10 +42,8 @@ namespace Blackjack
                 numberOfAces--;
             }
 
-            string listOfCards = string.Join(", ", Hand);
-            Console.Clear();
-            Console.WriteLine($"You have the cards {listOfCards} on your hand.");
-            Console.WriteLine($"The sum of your cards is: {sum}");
+            string listOfCards = string.Join(" + ", Hand);
+            Console.WriteLine($"You: {listOfCards} = {sum}");
         }
 
         public int GetHandSum()

@@ -38,12 +38,13 @@ namespace Blackjack
             winChecker.ResetVariables();
 
             player.Hand.Add(box.DealCard());
-            dealer.Hand.Add(box.DealCard());
-            player.Hand.Add(box.DealCard());
             dealer.FaceDownCard = box.DealCard();
+            player.Hand.Add(box.DealCard());
+            dealer.Hand.Add(box.DealCard());
 
-            player.PrintHand();
+            Console.Clear();
             dealer.PrintCard();
+            player.PrintHand();
 
             GetPlayerDecisionLoop(bet);
         }
@@ -59,17 +60,18 @@ namespace Blackjack
                 {
                     case 1: //STAND
                         Console.Clear();
-                        Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
                         dealer.AddFaceDownCard();
-                        Console.WriteLine($"The dealer's face-down card is {dealer.FaceDownCard}, he has now {dealer.GetHandSum()}");
+                        dealer.PrintHand();
+                        player.PrintHand();
                         dealer.FinishHand(box, winChecker);
+                        player.PrintHand();
                         winChecker.CheckWinner(player, dealer);
                         break;
                     case 2: //HIT
                         Console.Clear();
-                        Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
                         player.Hand.Add(box.DealCard());
-                        Console.WriteLine($"You draw {player.Hand[player.Hand.Count - 1]}, you have now {player.GetHandSum()}");
+                        dealer.PrintHand();
+                        player.PrintHand();
                         if (player.GetHandSum() > 21)
                         {
                             winChecker.PlayerIsBust = true;
@@ -80,12 +82,18 @@ namespace Blackjack
                         player.ChargeBet(bet);
                         Console.WriteLine($"Another {bet} have been withdrawn from your account");
                         bet += bet;
-                        Console.WriteLine($"You have {player.GetHandSum()}, the dealer has {dealer.GetHandSum()}");
                         player.Hand.Add(box.DealCard());
-                        Console.WriteLine($"You draw {player.Hand[player.Hand.Count - 1]}, you have now {player.GetHandSum()}");
+                        dealer.PrintHand();
+                        player.PrintHand();
+                        dealer.FinishHand(box, winChecker);
+                        player.PrintHand();
                         if (player.GetHandSum() > 21)
                         {
                             winChecker.PlayerIsBust = true;
+                        }
+                        else
+                        {
+                            winChecker.CheckWinner(player, dealer);
                         }
                         break;
                     case 4: //SPLIT

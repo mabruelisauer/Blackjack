@@ -19,8 +19,7 @@ namespace Blackjack
 
         public void PrintCard()
         {
-            int card = Hand[0];
-            Console.WriteLine($"Dealer has {card} on his hand.", card);
+            Console.WriteLine($"Dealer: {GetHandSum()}");
         }
 
         public void AddFaceDownCard()
@@ -48,9 +47,9 @@ namespace Blackjack
                 numberOfAces--;
             }
 
-            string listOfCards = string.Join(", ", Hand);
-            Console.WriteLine($"The dealer has the cards {listOfCards} on his hand.");
-            Console.WriteLine($"The sum of his cards is: {sum}");
+            string listOfCards = string.Join(" + ", Hand);
+            Console.Clear();
+            Console.WriteLine($"Dealer: {listOfCards} = {sum}");
         }
 
         public int GetHandSum()
@@ -83,7 +82,6 @@ namespace Blackjack
             while (sum < 17) 
             {
                 Hand.Add(box.DealCard());
-                Console.WriteLine($"The dealer draws {Hand[Hand.Count - 1]}, he has now {GetHandSum()}");
                 sum = GetHandSum();
             }
 
@@ -91,7 +89,8 @@ namespace Blackjack
             {
                 winChecker.DealerIsBust = true;
             }
-            Console.WriteLine($"The final sum of his cards is: {GetHandSum()}");
+                
+            PrintHand();
         }
     }
 }

@@ -31,12 +31,21 @@ namespace Blackjack
             bool Parsebool = decimal.TryParse(input, out decimal result);
             if (!Parsebool)
             {
-                Console.WriteLine("Please enter a number.");
+                Console.WriteLine("Please enter a number");
                 return false;
             }
             else if (result < 1 || result > 500)
             {
-                Console.WriteLine("Please enter a number between 1 and 500.");
+                Console.WriteLine("Please enter a number between 1 and 500");
+                return false;
+            }
+            else if (cash == 0)
+            {
+                throw new OverflowException("Sir would you please leave the casino? You're broke!");
+            }
+            else if (decimal.Parse(input) > cash)
+            {
+                Console.WriteLine("Cash is too low for this bet");
                 return false;
             }
             else
